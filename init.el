@@ -107,10 +107,7 @@
   (ac-set-trigger-key "<tab>"))
 
 (use-package avy
-  :ensure t
-  :config
-  (global-set-key (kbd "M-g w") 'avy-goto-word-1)
-  (global-set-key (kbd "M-g f") 'avy-goto-line))
+  :ensure t)
 
 (use-package evil-leader
   :ensure t
@@ -118,6 +115,8 @@
   (global-evil-leader-mode)
   (evil-leader/set-leader "<SPC>")
   (evil-leader/set-key
+   "a l" 'avy-goto-line
+   "a w" 'avy-goto-word-1
    "x" 'helm-M-x
    "f" 'helm-find-files
    "b" 'helm-buffers-list
