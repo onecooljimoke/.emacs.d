@@ -120,31 +120,27 @@
   (evil-leader/set-key
    "x" 'helm-M-x
    "f" 'helm-find-files
-   "b" 'helm-buffers-list))
+   "b" 'helm-buffers-list
+   "k" 'kill-buffer))
 
 (use-package evil
   :ensure t
   :config 
   (require 'evil)
-  (evil-mode 1))
+  (evil-mode 1)
+  (define-key evil-normal-state-map (kbd "q") nil)
+  (evil-leader/set-key "s" 'evil-write)
+  (evil-leader/set-key "q" 'evil-quit)
+  (setq evil-emacs-state-cursor '("red" box))
+  (setq evil-normal-state-cursor '("green" box))
+  (setq evil-insert-state-cursor '("orange" bar))
+  (define-key evil-normal-state-map (kbd "q") nil))
 
 (use-package expand-region
   :ensure t
   :config 
   (global-set-key (kbd "C-=") 'er/expand-region)
   (pending-delete-mode t))
-
-(use-package god-mode
-  :ensure t
-  :config
-  (global-set-key (kbd "<escape>") 'god-local-mode)
-  (defun my-update-cursor ()
-  (setq cursor-type (if (or god-local-mode buffer-read-only)
-                        'box
-                      'bar)))
-
-  (add-hook 'god-mode-enabled-hook 'my-update-cursor)
-  (add-hook 'god-mode-disabled-hook 'my-update-cursor))
 
 (use-package helm
   :ensure t
@@ -203,6 +199,10 @@
 (use-package web-mode
   :ensure t
   :mode ("\\.html?\\'" . web-mode))
+
+(use-package which-key
+  :ensure t
+  :config (which-key-mode))
 
 (use-package yasnippet 
   :ensure t
