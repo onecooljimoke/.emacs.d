@@ -1,0 +1,8 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: anonymous function
+# key: anon
+# binding: direct-keybinding
+# --
+function($1){
+  $0      
+};
