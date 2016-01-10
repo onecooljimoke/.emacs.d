@@ -128,12 +128,20 @@
   (require 'evil)
   (evil-mode 1)
   (define-key evil-normal-state-map (kbd "q") nil)
-  (evil-leader/set-key "s" 'evil-write)
-  (evil-leader/set-key "q" 'evil-quit)
+  (evil-leader/set-key
+    "s" 'evil-write
+    "q" 'evil-quit
+    "w s h" 'evil-window-split
+    "w s v" 'evil-window-vsplit
+    "w d w" 'delete-window
+    "w d o" 'delete-other-windows
+    "w m h" 'evil-window-left
+    "w m l" 'evil-window-right
+    "w m j" 'evil-window-down
+    "w m k" 'evil-window-up)
   (setq evil-emacs-state-cursor '("red" box))
   (setq evil-normal-state-cursor '("green" box))
-  (setq evil-insert-state-cursor '("orange" bar))
-  (define-key evil-normal-state-map (kbd "q") nil))
+  (setq evil-insert-state-cursor '("orange" bar)))
 
 (use-package expand-region
   :ensure t
