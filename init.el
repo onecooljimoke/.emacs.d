@@ -120,7 +120,8 @@
    "x" 'helm-M-x
    "f" 'helm-find-files
    "b" 'helm-buffers-list
-   "k" 'kill-buffer))
+   "k" 'kill-buffer
+   "m" 'magit-status))
 
 (use-package evil
   :ensure t
@@ -187,7 +188,10 @@
          ("C-h w" . helm-descbinds)))
 
 (use-package magit
-  :ensure t)
+  :ensure t
+  :config
+  (eval-after-load 'evil-core
+  '(evil-set-initial-state 'magit-popup-mode 'emacs)))
 
 (use-package ox-reveal
   :ensure t
