@@ -130,6 +130,8 @@
   (evil-mode 1)
   (define-key evil-normal-state-map (kbd "q") nil)
   (evil-leader/set-key
+    "c j" 'cider-jack-in
+    "c k" 'cider-load-buffer 
     "s" 'evil-write
     "q" 'evil-quit
     "w s h" 'evil-window-split
@@ -193,6 +195,9 @@
   (eval-after-load 'evil-core
   '(evil-set-initial-state 'magit-popup-mode 'emacs)))
 
+(use-package org 
+  :ensure t)
+
 (use-package ox-reveal
   :ensure t
   :init (setq org-reveal-root "file:///home/jeff/bin/reveal.js"))
@@ -201,6 +206,9 @@
   :ensure t)
 
 (use-package paredit-everywhere
+  :ensure t)
+
+(use-package racket-mode
   :ensure t)
 
 (use-package rainbow-delimiters
