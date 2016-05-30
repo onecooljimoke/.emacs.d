@@ -30,7 +30,7 @@
 (load-theme 'monokai t)
 
 ;; increase font size for better readability
-(set-face-attribute 'default nil :height 105)
+(set-face-attribute 'default nil :height 160)
 
 ;; Uncomment the lines below by removing semicolons and play with the
 ;; values in order to set the width (in characters wide) and height
@@ -68,3 +68,6 @@
 
 ;; no bell
 (setq ring-bell-function 'ignore)
+
+;; remove the mode line, everything you need can be found other places
+(setq-default mode-line-format nil) 

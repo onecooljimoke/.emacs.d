@@ -52,9 +52,6 @@
     ;; http://www.emacswiki.org/emacs/Smex
     ;; smex
 
-    ;; project navigation
-    projectile
-
     ;; edit html tags like sexps
     tagedit))
 
@@ -117,11 +114,12 @@
   (evil-leader/set-key
    "a l" 'avy-goto-line
    "a w" 'avy-goto-word-1
-   "x" 'helm-M-x
-   "f" 'helm-find-files
    "b" 'helm-buffers-list
+   "f" 'helm-find-files
+   "i" 'helm-imenu
    "k" 'kill-buffer
-   "m" 'magit-status))
+   "m" 'magit-status
+   "x" 'helm-M-x))
 
 (use-package evil
   :ensure t
@@ -132,6 +130,7 @@
   (evil-leader/set-key
     "c j" 'cider-jack-in
     "c k" 'cider-load-buffer 
+    "c q" 'cider-quit
     "s" 'evil-write
     "q" 'evil-quit
     "w s h" 'evil-window-split
@@ -145,6 +144,11 @@
   (setq evil-emacs-state-cursor '("red" box))
   (setq evil-normal-state-cursor '("green" box))
   (setq evil-insert-state-cursor '("orange" bar)))
+
+(use-package evil-easymotion
+  :ensure t
+  :config
+  (evilem-default-keybindings ";"))
 
 (use-package expand-region
   :ensure t
@@ -198,18 +202,34 @@
 (use-package org 
   :ensure t)
 
-(use-package ox-reveal
-  :ensure t
-  :init (setq org-reveal-root "file:///home/jeff/bin/reveal.js"))
-
 (use-package paredit
   :ensure t)
 
 (use-package paredit-everywhere
   :ensure t)
 
-(use-package racket-mode
-  :ensure t)
+(use-package php-mode
+  :ensure t
+  :config (require 'php-mode)
+  (add-to-list 'auto-mode-alist '("\\.install\\'" . php-mode)))
+
+(use-package projectile
+  :ensure t
+  :config 
+  ;; projectile everywhere!
+  (projectile-global-mode)
+  (evil-leader/set-key
+    "p i" 'projectile-ibuffer))
+
+(use-package helm-projectile
+  :ensure t
+  :config
+  (evil-leader/set-key
+    "p d" 'helm-projectile-find-dir
+    "p f" 'helm-projectile-find-file
+    "p g" 'helm-projectile-grep
+    "p r" 'helm-projectile-recentf
+    "p s" 'helm-projectile-switch-project))
 
 (use-package rainbow-delimiters
  :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
@@ -217,7 +237,33 @@
 
 (use-package web-mode
   :ensure t
-  :mode ("\\.html?\\'" . web-mode))
+  :config 
+  (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.module\\'" . web-mode)) 
+  (add-to-list 'auto-mode-alist '("\\.inc\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+  ; set indenting to 2 spaces
+  (setq web-mode-markup-indent-offset 2)
+  (setq web-mode-css-indent-offset 2)
+  (evil-leader/set-key
+    "u w a i" 'web-mode-attribute-insert
+    "u w a k" 'web-mode-attribute-kill
+    "u w a n" 'web-mode-attribute-next
+    "u w a p" 'web-mode-attribute-previous
+    "u w a s" 'web-mode-attribute-select 
+    "u w c" 'web-mode-comment-or-uncomment
+    "u w d t" 'web-mode-dom-traverse
+    "u w e b" 'web-mode-element-beginning
+    "u w e c" 'web-mode-element-content-select
+    "u w e e" 'web-mode-element-end
+    "u w e i" 'web-mode-element-insert
+    "u w e r" 'web-mode-element-rename
+    "u w e s" 'web-mode-element-select
+    "u w e w" 'web-mode-element-wrap
+    "u w f" 'web-mode-fold-or-unfold
+    "u w i" 'web-mode-buffer-indent
+    "u w t m" 'web-mode-tag-match))
 
 (use-package which-key
   :ensure t
