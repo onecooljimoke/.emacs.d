@@ -6,10 +6,13 @@
 (require 'package)
 
 (add-to-list 'package-archives
-	     '("melpa" . "http://melpa.milkbox.net/packages/") t)
+             '("MELPA Stable" . "https://stable.melpa.org/packages/") t)
+
+;;(add-to-list 'package-archives
+;; 	     '("melpa" . "http://melpa.milkbox.net/packages/") t)
 
 (add-to-list 'package-archives
-	     '("marmalade" . "http://marmalade-repo.org/packages/") t)
+       '("marmalade" . "http://marmalade-repo.org/packages/") t)
 
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
 
@@ -119,7 +122,9 @@
    "i" 'helm-imenu
    "k" 'kill-buffer
    "m" 'magit-status
-   "x" 'helm-M-x))
+   "x" 'helm-M-x
+   "e f" 'find-tag
+   "e l" 'list-tags))
 
 (use-package evil
   :ensure t
@@ -140,7 +145,8 @@
     "w m h" 'evil-window-left
     "w m l" 'evil-window-right
     "w m j" 'evil-window-down
-    "w m k" 'evil-window-up)
+    "w m k" 'evil-window-up
+    "u s" 'speedbar-frame-mode)
   (setq evil-emacs-state-cursor '("red" box))
   (setq evil-normal-state-cursor '("green" box))
   (setq evil-insert-state-cursor '("orange" bar)))
@@ -150,11 +156,21 @@
   :config
   (evilem-default-keybindings ";"))
 
+(use-package evil-matchit
+  :ensure t
+  :config
+  (require 'evil-matchit)
+  (global-evil-matchit-mode 1))
+
 (use-package expand-region
   :ensure t
   :config 
   (global-set-key (kbd "C-=") 'er/expand-region)
   (pending-delete-mode t))
+
+(use-package flycheck
+  :ensure t
+  :init (global-flycheck-mode))
 
 (use-package helm
   :ensure t
@@ -193,11 +209,25 @@
   :bind (("C-h b" . helm-descbinds)
          ("C-h w" . helm-descbinds)))
 
+(use-package helm-swoop
+  :ensure t)
+
 (use-package magit
   :ensure t
   :config
   (eval-after-load 'evil-core
-  '(evil-set-initial-state 'magit-popup-mode 'emacs)))
+   '(evil-set-initial-state 'magit-popup-mode 'emacs)))
+
+(use-package markdown-mode
+  :ensure t
+  :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode))
+  :init (setq markdown-command "markdown"))
+
+(use-package markdown-preview-mode
+  :ensure t)
 
 (use-package org 
   :ensure t)
@@ -205,7 +235,7 @@
 (use-package paredit
   :ensure t)
 
-(use-package paredit-everywhere
+(use-package paredit-everywhere 
   :ensure t)
 
 (use-package php-mode
@@ -232,8 +262,8 @@
     "p s" 'helm-projectile-switch-project))
 
 (use-package rainbow-delimiters
- :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
- :ensure t)
+  :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+  :ensure t)
 
 (use-package web-mode
   :ensure t
@@ -268,11 +298,6 @@
 (use-package which-key
   :ensure t
   :config (which-key-mode))
-
-(use-package yasnippet 
-  :ensure t
-  :config (yas-global-mode 1))
-
 
 ;; Customization
 ;;;;
