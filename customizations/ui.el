@@ -71,4 +71,4 @@
 (setq ring-bell-function 'ignore)
 
 ;; remove the mode line, everything you need can be found other places
-(setq-default mode-line-format nil) 
+(setq-default mode-line-format nil)

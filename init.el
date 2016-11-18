@@ -96,8 +96,6 @@
 (require 'use-package)
 
 ;; set up hosted packages
-(use-package all-the-icons)
- 
 (use-package auto-complete
   :ensure t
   :init
@@ -191,7 +189,8 @@
     "i c r" 'counsel-git-grep
     "i c a" 'counsel-ag
     "i c l o" 'counsel-locate
-    "i c e" 'counsel-expression-history))
+    "i c e" 'counsel-expression-history
+    "b" 'ivy-switch-buffer))
 
 (use-package magit
   :ensure t
