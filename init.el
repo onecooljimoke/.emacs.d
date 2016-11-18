@@ -96,6 +96,8 @@
 (require 'use-package)
 
 ;; set up hosted packages
+(use-package all-the-icons)
+ 
 (use-package auto-complete
   :ensure t
   :init
@@ -305,6 +307,8 @@
 ;; Add a directory to our load path so that when you `load` things
 ;; below, Emacs knows where to look for the corresponding file.
 (add-to-list 'load-path (concat user-emacs-directory "customizations"))
+
+(load "speedbar-setup.el")
 
 ;; Sets up exec-path-from-shell so that Emacs will use the correct
 ;; environment variables
