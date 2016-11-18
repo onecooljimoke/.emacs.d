@@ -96,6 +96,10 @@
 (require 'use-package)
 
 ;; set up hosted packages
+(use-package aggressive-indent
+  :ensure t
+  :config (global-aggressive-indent-mode 1))
+
 (use-package auto-complete
   :ensure t
   :init
