@@ -119,12 +119,8 @@
   (evil-leader/set-key
    "a l" 'avy-goto-line
    "a w" 'avy-goto-word-1
-   "b" 'helm-buffers-list
-   "f" 'helm-find-files
-   "i" 'helm-imenu
    "k" 'kill-buffer
    "m" 'magit-status
-   "x" 'helm-M-x
    "e f" 'find-tag
    "e l" 'list-tags))
 
@@ -174,49 +170,33 @@
   :ensure t
   :init (global-flycheck-mode))
 
-(use-package helm
-  :ensure t
-  :diminish helm-mode
-  :init
-  (progn
-    (require 'helm-config)
-    (setq helm-candidate-number-limit 100)
-    ;; From https://gist.github.com/antifuchs/9238468
-    (setq helm-idle-delay 0.0 ; update fast sources immediately (doesn't).
-          helm-input-idle-delay 0.01  ; this actually updates things
-                                        ; reeeelatively quickly.
-          helm-yas-display-key-on-candidate t
-          helm-quick-update t
-          helm-M-x-requires-pattern nil
-          helm-ff-skip-boring-files t)
-    (helm-mode))
-  :bind (("C-c h" . helm-mini)
-         ("C-h a" . helm-apropos)
-         ("C-x C-b" . helm-buffers-list)
-         ("C-x b" . helm-buffers-list)
-         ("M-y" . helm-show-kill-ring)
-         ("M-x" . helm-M-x)
-         ("C-x c o" . helm-occur)
-         ("C-x c s" . helm-swoop)
-         ("C-x c y" . helm-yas-complete)
-         ("C-x c Y" . helm-yas-create-snippet-on-region)
-         ("C-x c b" . my/helm-do-grep-book-notes)
-         ("C-x c SPC" . helm-all-mark-rings)))
-
 (ido-mode -1) ;; Turn off ido mode in case I enabled it accidentally
 
-(use-package helm-descbinds
-  :defer t
+(use-package ivy
   :ensure t
-  :bind (("C-h b" . helm-descbinds)
-         ("C-h w" . helm-descbinds)))
-
-(use-package helm-swoop
-  :ensure t)
+  :config
+  (ivy-mode 1)
+  (setq ivy-use-virtual-buffers t)
+  (evil-leader/set-key
+    "i s" 'swiper
+    "i r" 'ivy-resume
+    "x" 'counsel-M-x
+    "f" 'counsel-find-file
+    "i c d" 'counsel-describe-function
+    "i c v" 'counsel-describe-variable
+    "i c l l" 'counsel-load-library
+    "i c i" 'counsel-info-lookup-symbol
+    "i c u" 'counsel-unicode-char
+    "i c g" 'counsel-git
+    "i c r" 'counsel-git-grep
+    "i c a" 'counsel-ag
+    "i c l o" 'counsel-locate
+    "i c e" 'counsel-expression-history))
 
 (use-package magit
   :ensure t
   :config
+  (setq magit-completing-read-function 'ivy-completing-read)
   (eval-after-load 'evil-core
    '(evil-set-initial-state 'magit-popup-mode 'emacs)))
 
@@ -250,18 +230,9 @@
   :config 
   ;; projectile everywhere!
   (projectile-global-mode)
+  (setq projectile-completion-system 'ivy)
   (evil-leader/set-key
     "p i" 'projectile-ibuffer))
-
-(use-package helm-projectile
-  :ensure t
-  :config
-  (evil-leader/set-key
-    "p d" 'helm-projectile-find-dir
-    "p f" 'helm-projectile-find-file
-    "p g" 'helm-projectile-grep
-    "p r" 'helm-projectile-recentf
-    "p s" 'helm-projectile-switch-project))
 
 (use-package rainbow-delimiters
   :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
